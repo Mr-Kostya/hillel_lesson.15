@@ -38,31 +38,12 @@ function onSubmit(e) {
     saveButton.classList.add("hidden");
     saveButton.innerText = "Save";
 
-    deleteButton.classList.add("button");
-    deleteButton.classList.add("button--todo");
-    deleteButton.classList.add("button--delete");
-    deleteButton.innerText = "Delete";
-
     li.appendChild(todoTitle);
     li.appendChild(editableInput);
     li.appendChild(editButton);
     li.appendChild(saveButton);
     li.appendChild(deleteButton);
     todoCollection.appendChild(li);
-
-    function shakeForm() {
-        todoForm.classList.toggle("shake-horizontal");
-        setTimeout(() => {
-            todoForm.classList.toggle("shake-horizontal");
-        }, 500);
-    }
-
-    function toggleTodoEditForm() {
-        todoTitle.classList.toggle("hidden");
-        editableInput.classList.toggle("hidden");
-        editButton.classList.toggle("hidden");
-        saveButton.classList.toggle("hidden");
-    }
 
     editButton.addEventListener("click", () => {
         toggleTodoEditForm();
@@ -75,12 +56,26 @@ function onSubmit(e) {
     });
 
     deleteButton.addEventListener("click", () => {
-        setTimeout(() => {
             todoCollection.removeChild(li);
-        }, 100);
+        updateDeleteButton()
     });
 
     todoInput.value = "";
 
     e.preventDefault();
 }
+
+function updateDeleteButton() {
+    deleteButton.classList.add("button");
+    deleteButton.classList.add("button--todo");
+    deleteButton.classList.add("button--delete");
+    deleteButton.innerText = "Delete";
+}
+
+function toggleTodoEditForm() {
+    todoTitle.classList.toggle("hidden");
+    editableInput.classList.toggle("hidden");
+    editButton.classList.toggle("hidden");
+    saveButton.classList.toggle("hidden");
+}
+
