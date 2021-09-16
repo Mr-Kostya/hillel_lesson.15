@@ -1,81 +1,63 @@
 const todoForm = document.querySelector(".todo-form");
 const todoInput = document.querySelector("input");
 const todoCollection = document.querySelector(".todo-collection");
-const li = document.createElement("li");
-const todoTitle = document.createElement("span");
-const editableInput = document.createElement("input");
-const editButton = document.createElement("button");
-const saveButton = document.createElement("button");
-const deleteButton = document.createElement("button");
 
 todoForm.addEventListener("submit", onSubmit);
 
-function onSubmit(e) {
-    if (todoInput.value === "") {
-        shakeForm()
-        return;
-    }
-
-    li.classList.add("todo-collection__item");
-
-    todoTitle.classList.add("todo-collection__item__title");
-    todoTitle.innerText = todoInput.value;
-
-    editableInput.classList.add("input");
-    editableInput.classList.add("input--todo");
-    editableInput.classList.add("hidden");
-    editableInput.type = "text";
-    editableInput.value = todoInput.value;
-
-    editButton.classList.add("button");
-    editButton.classList.add("button--todo");
-    editButton.classList.add("button--edit");
-    editButton.innerText = "Edit";
-
-    saveButton.classList.add("button");
-    saveButton.classList.add("button--todo");
-    saveButton.classList.add("button--save");
-    saveButton.classList.add("hidden");
-    saveButton.innerText = "Save";
-
-    li.appendChild(todoTitle);
-    li.appendChild(editableInput);
-    li.appendChild(editButton);
-    li.appendChild(saveButton);
-    li.appendChild(deleteButton);
-    todoCollection.appendChild(li);
-
-    editButton.addEventListener("click", () => {
-        toggleTodoEditForm();
-        editableInput.focus();
-    });
-
-    saveButton.addEventListener("click", () => {
-        todoTitle.innerText = editableInput.value;
-        toggleTodoEditForm();
-    });
-
-    deleteButton.addEventListener("click", () => {
-            todoCollection.removeChild(li);
-        updateDeleteButton()
-    });
-
-    todoInput.value = "";
-
-    e.preventDefault();
-}
-
-function updateDeleteButton() {
+const createDeleteButton = () => {
+    const deleteButton = document.createElement("button");
     deleteButton.classList.add("button");
     deleteButton.classList.add("button--todo");
     deleteButton.classList.add("button--delete");
     deleteButton.innerText = "Delete";
-}
+    deleteButton.id = "delete";
+    return deleteButton;
+};
 
-function toggleTodoEditForm() {
-    todoTitle.classList.toggle("hidden");
-    editableInput.classList.toggle("hidden");
-    editButton.classList.toggle("hidden");
-    saveButton.classList.toggle("hidden");
-}
+const createDoneButton = () => {
+    const doneButton = document.createElement("button");
+    doneButton.classList.add("button");
+    doneButton.classList.add("button--todo");
+    doneButton.classList.add("button--done");
+    doneButton.id = "done";
+    doneButton.innerText = "Done";
+    return doneButton;
+};
 
+const createTitle = (value) => {
+    const todoTitle = document.createElement("span");
+    todoTitle.classList.add("todo-collection__item__title");
+    todoTitle.innerText = value;
+    return todoTitle;
+};
+
+const events = {
+    done: (target) => target.classList.add("todo-item__done"),
+    delete: (target) => target.remove()
+};
+
+const onClick = (e) => events[e.target.id](e.currentTarget);
+
+const createTodoItemElement = () => {
+    const li = document.createElement("li");
+    li.classList.add("todo-collection__item");
+    li.appendChild(createTitle(todoInput.value));
+    li.appendChild(createDoneButton());
+    li.appendChild(createDeleteButton());
+    li.addEventListener("click", onClick);
+    todoCollection.appendChild(li);
+};
+
+
+
+function onSubmit(e) {
+    e.preventDefault();
+
+    if (todoInput.value === "") {
+        alert('fill in the field!');
+        return false;
+    }
+    createTodoItemElement();
+    document.forms[0].reset();
+
+}

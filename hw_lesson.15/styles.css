@@ -140,3 +140,7 @@ body {
 .hidden {
     display: none;
 }
+
+.todo-item__done {
+    border: 2px solid lightgreen;
+}
