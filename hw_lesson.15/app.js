@@ -1,6 +1,7 @@
 const todoForm = document.querySelector(".todo-form");
 const todoInput = document.querySelector("input");
 const todoCollection = document.querySelector(".todo-collection");
+const currentForm = document.querySelector(".todo-form");
 
 todoForm.addEventListener("submit", onSubmit);
 
@@ -48,8 +49,6 @@ const createTodoItemElement = () => {
     todoCollection.appendChild(li);
 };
 
-
-
 function onSubmit(e) {
     e.preventDefault();
 
@@ -58,6 +57,6 @@ function onSubmit(e) {
         return false;
     }
     createTodoItemElement();
-    document.forms[0].reset();
+    currentForm.reset();
 
 }
