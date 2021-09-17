@@ -49,7 +49,14 @@ const createTodoItemElement = () => {
 };
 
 function onSubmit(e) {
-    createTodoItemElement();
-    todoInput.value = "";
     e.preventDefault();
+
+    if (todoInput.value === "") {
+        alert('fill in the field!');
+        return false;
+    }
+    createTodoItemElement();
+    document.forms[0].reset();
+
 }
+
