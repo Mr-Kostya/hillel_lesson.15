@@ -58,5 +58,4 @@ function onSubmit(e) {
     }
     createTodoItemElement();
     currentForm.reset();
-
 }
